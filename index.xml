@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Dekun Ma</title>
+    <link>https://dekunma.github.io/</link>
+    <description>Recent content on Dekun Ma</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Mon, 08 Nov 2021 21:07:21 -0500</lastBuildDate><atom:link href="https://dekunma.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Note</title>
+      <link>https://dekunma.github.io/post/note/</link>
+      <pubDate>Mon, 08 Nov 2021 21:07:21 -0500</pubDate>
+      
+      <guid>https://dekunma.github.io/post/note/</guid>
+      <description>Note This site is a work in progress.
+It is currently for testing purposes only.</description>
+    </item>
+    
+  </channel>
+</rss>

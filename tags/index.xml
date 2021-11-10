@@ -5,6 +5,16 @@
     <link>https://dekunma.github.io/tags/</link>
     <description>Recent content in Tags on Dekun Ma</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en</language><atom:link href="https://dekunma.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <language>en</language>
+    <lastBuildDate>Tue, 09 Nov 2021 21:47:56 -0500</lastBuildDate><atom:link href="https://dekunma.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Union Find</title>
+      <link>https://dekunma.github.io/tags/union-find/</link>
+      <pubDate>Tue, 09 Nov 2021 21:47:56 -0500</pubDate>
+      
+      <guid>https://dekunma.github.io/tags/union-find/</guid>
+      <description></description>
+    </item>
+    
   </channel>
 </rss>

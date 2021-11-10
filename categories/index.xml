@@ -6,7 +6,25 @@
     <description>Recent content in Categories on Dekun Ma</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Mon, 08 Nov 2021 21:07:21 -0500</lastBuildDate><atom:link href="https://dekunma.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 09 Nov 2021 21:47:56 -0500</lastBuildDate><atom:link href="https://dekunma.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>algorithms</title>
+      <link>https://dekunma.github.io/categories/algorithms/</link>
+      <pubDate>Tue, 09 Nov 2021 21:47:56 -0500</pubDate>
+      
+      <guid>https://dekunma.github.io/categories/algorithms/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>data structures</title>
+      <link>https://dekunma.github.io/categories/data-structures/</link>
+      <pubDate>Tue, 09 Nov 2021 21:47:56 -0500</pubDate>
+      
+      <guid>https://dekunma.github.io/categories/data-structures/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>test</title>
       <link>https://dekunma.github.io/categories/test/</link>

@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Union Find with &#39;Move&#39; Operation - Dekun Ma</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="Dekun Ma" /><meta name="description" content="This post assumes that you are familiar with the Union Find (Disjoint Set) data structure.
+ Problem statement In addition to the union and find operations of a normal Union Find, we also need to be able to move an element from one set to another.
+For exmaple:
+If the intial sets in our Union Find are:
+{1}, {2}, {3}, {4}, {5}  After performing the following union operations:" /><meta name="keywords" content="Hugo, Blog, Computer Science, Tech" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.89.1 with theme even" />
+
+
+<link rel="canonical" href="https://dekunma.github.io/post/union-find-move/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.9d6d9d4f1f98f52add15feba1ea1bab64b8f8c26ec1cdd5bb944a39e3da82f5a.css" rel="stylesheet">
+<link href="/lib/fancybox/jquery.fancybox-3.1.20.min.css" rel="stylesheet">
+<link rel="stylesheet" href="/css/custom.css">
+
+
+<meta property="og:title" content="Union Find with &#39;Move&#39; Operation" />
+<meta property="og:description" content="This post assumes that you are familiar with the Union Find (Disjoint Set) data structure.
+ Problem statement In addition to the union and find operations of a normal Union Find, we also need to be able to move an element from one set to another.
+For exmaple:
+If the intial sets in our Union Find are:
+{1}, {2}, {3}, {4}, {5}  After performing the following union operations:" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://dekunma.github.io/post/union-find-move/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2021-11-09T21:47:56-05:00" />
+<meta property="article:modified_time" content="2021-11-09T21:47:56-05:00" />
+
+<meta itemprop="name" content="Union Find with &#39;Move&#39; Operation">
+<meta itemprop="description" content="This post assumes that you are familiar with the Union Find (Disjoint Set) data structure.
+ Problem statement In addition to the union and find operations of a normal Union Find, we also need to be able to move an element from one set to another.
+For exmaple:
+If the intial sets in our Union Find are:
+{1}, {2}, {3}, {4}, {5}  After performing the following union operations:"><meta itemprop="datePublished" content="2021-11-09T21:47:56-05:00" />
+<meta itemprop="dateModified" content="2021-11-09T21:47:56-05:00" />
+<meta itemprop="wordCount" content="525">
+<meta itemprop="keywords" content="Union Find," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Union Find with &#39;Move&#39; Operation"/>
+<meta name="twitter:description" content="This post assumes that you are familiar with the Union Find (Disjoint Set) data structure.
+ Problem statement In addition to the union and find operations of a normal Union Find, we also need to be able to move an element from one set to another.
+For exmaple:
+If the intial sets in our Union Find are:
+{1}, {2}, {3}, {4}, {5}  After performing the following union operations:"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">▲</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">▲</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Union Find with &#39;Move&#39; Operation</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2021-11-09 </span>
+        <div class="post-category">
+            <a href="/categories/algorithms/"> algorithms </a>
+            <a href="/categories/data-structures/"> data structures </a>
+            </div>
+          <span class="more-meta"> 525 words </span>
+          <span class="more-meta"> 3 mins read </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#problem-statement">Problem statement</a></li>
+        <li><a href="#edge-cases">Edge cases</a></li>
+        <li><a href="#solution">Solution</a>
+          <ul>
+            <li><a href="#path-compression">Path compression</a></li>
+            <li><a href="#dummy-root-node">Dummy root node</a></li>
+          </ul>
+        </li>
+        <li><a href="#acknowledgement">Acknowledgement</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <blockquote>
+<p>This post assumes that you are familiar with the <a href="https://en.wikipedia.org/wiki/Disjoint-set_data_structure">Union Find (Disjoint Set)</a> data structure.</p>
+</blockquote>
+<h2 id="problem-statement">Problem statement</h2>
+<p>In addition to the <code>union</code> and <code>find</code> operations of a normal Union Find, we also need to be able to <code>move</code> an element from one set to another.</p>
+<p>For exmaple:<br>
+If the intial sets in our Union Find are:</p>
+<pre><code>{1}, {2}, {3}, {4}, {5}
+</code></pre>
+<p>After performing the following <code>union</code> operations:</p>
+<ul>
+<li><code>union(1, 2)</code></li>
+<li><code>union(3, 4)</code></li>
+<li><code>union(3, 5)</code></li>
+</ul>
+<p>The sets are now:</p>
+<pre><code>{1, 2}, {3, 4, 5}
+</code></pre>
+<p>There are two sets in total (<code>{1, 2}</code> and <code>{3, 4, 5}</code>).</p>
+<p>Now, if we perform <code>move(4, 1)</code>, meaning moveing element <code>4</code> from its set to the set containing <code>1</code>, we get:</p>
+<pre><code>{1, 2, 4}, {3, 5}
+</code></pre>
+<h2 id="edge-cases">Edge cases</h2>
+<p>You might think by setting the <code>parent</code> of the element being moved to its target element, the problem is solved.<br>
+However, consider this edge case:</p>
+<pre><code>{1}, {2}, {3}
+</code></pre>
+<p>After <code>union(1, 2)</code>:</p>
+<pre><code> {1} |
+ /   |  {3}
+{2}  |
+</code></pre>
+<p>Meaning that the parent of <code>2</code> is now <code>1</code> (The sets are now <code>{1, 2}, {3}</code>).</p>
+<p>Now, if we <code>move(1, 3)</code> by setting the root of <code>1</code> to <code>3</code> directly, we get:</p>
+<pre><code>    {3}
+    /
+   {1}
+   /
+ {2}
+</code></pre>
+<p>Becasue by setting the parent of <code>1</code> to <code>3</code>, we also move all the children of <code>1</code> (namely, <code>2</code>) to <code>3</code> .</p>
+<h2 id="solution">Solution</h2>
+<p>The core idea to solve this problem is: we want to make sure we never <code>move</code> an element that has children.
+To accomplish this, we want to do:</p>
+<ol>
+<li>Path compression. So that every element in a set will connect to one single parent directly.</li>
+<li>Dummy root node (will be explained). So that the one single parent node will never be moved during a <code>move</code> operation.</li>
+</ol>
+<h3 id="path-compression">Path compression</h3>
+<p>sample code for path compression:</p>
+<pre><code class="language-java">public int find(int ii) {
+    if (parent[ii] != ii) parent[ii] = find(parent[ii]);
+    return parent[ii];
+}
+</code></pre>
+<h3 id="dummy-root-node">Dummy root node</h3>
+<p>Initially, the parent of every element will be a dummy root node.
+When we <code>move</code>, we move the element directly from one set to another.
+When we <code>union</code>, we union the two sets as per normal Union Find.</p>
+<p>Example:</p>
+<pre><code>dummy nodes:     {6}  {7}  {8}  {9}  {10}
+                  |    |    |    |    |
+normal nodes:    {1}, {2}, {3}, {4}, {5}
+</code></pre>
+<p>Here, nodes <code>6</code> to <code>10</code> are dummy root nodes.
+All sets are <code>{1}, {2}, {3}, {4}, {5}</code>.</p>
+<p><code>move(2, 1)</code></p>
+<pre><code>{6}     {7}  {8}  {9}  {10}
+ | \          |    |    |
+{1} {2}      {3}, {4}, {5}
+</code></pre>
+<p>Now, all sets are <code>{1, 2}, {3}, {4}, {5}</code>.</p>
+<p><code>union(3, 4)</code></p>
+<pre><code>{6}     {7}      {9}    {10}
+ | \            /  |     |
+{1} {2}       {8} {4}   {5}
+              /
+             {3}
+</code></pre>
+<p>Now, all sets are <code>{1, 2}, {3, 4}, {5}</code>.
+Note that dummy root nodes are always not counted in our set.</p>
+<p><code>move(3, 2)</code></p>
+<pre><code>{6}_______    {7}    {9}    {10}
+ | \      |         /  |     |
+{1} {2}  {3}      {8} {4}   {5}
+</code></pre>
+<p>Sets are <code>{1, 2, 3}, {4}, {5}</code>.</p>
+<p><code>union(2, 5)</code> (If we did the merge by rank optimization)</p>
+<pre><code>{6}_____________     {7}     {9}
+ | \      |     |           /  |
+{1} {2}  {3}   {10}       {8} {4}
+                |
+               {5}
+</code></pre>
+<p>Sets are <code>{1, 2, 3, 5}, {4}</code></p>
+<h2 id="acknowledgement">Acknowledgement</h2>
+<p>This problem is originated from Problem Set 9 of NYU Algorithmic Problem Solving class (Fall 2021).</p>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">Dekun Ma</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        2021-11-09
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/union-find/">Union Find</a>
+          </div>
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/note/">
+            <span class="next-text nav-default">Note</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        <div id="disqus_thread"></div>
+<script type="text/javascript">
+    (function () {
+        
+        
+        if (window.location.hostname === 'localhost') return;
+
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        var disqus_shortname = 'dekunma-blog';
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript
+    >Please enable JavaScript to view the
+    <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript
+>
+
+
+
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links"> 
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io"
+      >Hugo</a
+    >
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme -
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even"
+      >Even</a
+    >
+  </span>
+
+  
+
+  <span class="copyright-year"> &copy; 2021<span class="heart"><i class="iconfont icon-heart"></i></span
+    ><span
+      >Dekun Ma</span
+    >
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script><script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+  <script type="text/javascript" src="/lib/fancybox/jquery.fancybox-3.1.20.min.js"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c99b103c33d1539acf3025e1913697534542c4a5aa5af0ccc20475ed2863603b.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

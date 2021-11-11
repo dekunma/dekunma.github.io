@@ -15,7 +15,7 @@
       <guid>https://dekunma.github.io/post/union-find-move/</guid>
       <description>This post assumes that you are familiar with the Union Find (Disjoint Set) data structure.
  Problem statement In addition to the union and find operations of a normal Union Find, we also need to be able to move an element from one set to another.
-For exmaple:
+ For exmaple:
 If the intial sets in our Union Find are:
 {1}, {2}, {3}, {4}, {5}  After performing the following union operations:</description>
     </item>

@@ -18,7 +18,7 @@
 
 <meta name="author" content="Dekun Ma" /><meta name="description" content="This post assumes that you are familiar with the Union Find (Disjoint Set) data structure.
  Problem statement In addition to the union and find operations of a normal Union Find, we also need to be able to move an element from one set to another.
-For exmaple:
+ For exmaple:
 If the intial sets in our Union Find are:
 {1}, {2}, {3}, {4}, {5}  After performing the following union operations:" /><meta name="keywords" content="Hugo, Blog, Computer Science, Tech" />
 
@@ -47,7 +47,7 @@ If the intial sets in our Union Find are:
 <meta property="og:title" content="Union Find with &#39;Move&#39; Operation" />
 <meta property="og:description" content="This post assumes that you are familiar with the Union Find (Disjoint Set) data structure.
  Problem statement In addition to the union and find operations of a normal Union Find, we also need to be able to move an element from one set to another.
-For exmaple:
+ For exmaple:
 If the intial sets in our Union Find are:
 {1}, {2}, {3}, {4}, {5}  After performing the following union operations:" />
 <meta property="og:type" content="article" />
@@ -58,16 +58,16 @@ If the intial sets in our Union Find are:
 <meta itemprop="name" content="Union Find with &#39;Move&#39; Operation">
 <meta itemprop="description" content="This post assumes that you are familiar with the Union Find (Disjoint Set) data structure.
  Problem statement In addition to the union and find operations of a normal Union Find, we also need to be able to move an element from one set to another.
-For exmaple:
+ For exmaple:
 If the intial sets in our Union Find are:
 {1}, {2}, {3}, {4}, {5}  After performing the following union operations:"><meta itemprop="datePublished" content="2021-11-09T21:47:56-05:00" />
 <meta itemprop="dateModified" content="2021-11-09T21:47:56-05:00" />
-<meta itemprop="wordCount" content="525">
+<meta itemprop="wordCount" content="583">
 <meta itemprop="keywords" content="Union Find," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Union Find with &#39;Move&#39; Operation"/>
 <meta name="twitter:description" content="This post assumes that you are familiar with the Union Find (Disjoint Set) data structure.
  Problem statement In addition to the union and find operations of a normal Union Find, we also need to be able to move an element from one set to another.
-For exmaple:
+ For exmaple:
 If the intial sets in our Union Find are:
 {1}, {2}, {3}, {4}, {5}  After performing the following union operations:"/>
 
@@ -150,7 +150,7 @@ If the intial sets in our Union Find are:
             <a href="/categories/algorithms/"> algorithms </a>
             <a href="/categories/data-structures/"> data structures </a>
             </div>
-          <span class="more-meta"> 525 words </span>
+          <span class="more-meta"> 583 words </span>
           <span class="more-meta"> 3 mins read </span>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
       </div>
@@ -167,10 +167,10 @@ If the intial sets in our Union Find are:
         <li><a href="#edge-cases">Edge cases</a></li>
         <li><a href="#solution">Solution</a>
           <ul>
-            <li><a href="#path-compression">Path compression</a></li>
             <li><a href="#dummy-root-node">Dummy root node</a></li>
           </ul>
         </li>
+        <li><a href="#implementation">Implementation</a></li>
         <li><a href="#acknowledgement">Acknowledgement</a></li>
       </ul>
     </li>
@@ -183,7 +183,9 @@ If the intial sets in our Union Find are:
 <p>This post assumes that you are familiar with the <a href="https://en.wikipedia.org/wiki/Disjoint-set_data_structure">Union Find (Disjoint Set)</a> data structure.</p>
 </blockquote>
 <h2 id="problem-statement">Problem statement</h2>
+<div class="admonition note">
 <p>In addition to the <code>union</code> and <code>find</code> operations of a normal Union Find, we also need to be able to <code>move</code> an element from one set to another.</p>
+</div>
 <p>For exmaple:<br>
 If the intial sets in our Union Find are:</p>
 <pre><code>{1}, {2}, {3}, {4}, {5}
@@ -222,18 +224,10 @@ However, consider this edge case:</p>
 <p>Becasue by setting the parent of <code>1</code> to <code>3</code>, we also move all the children of <code>1</code> (namely, <code>2</code>) to <code>3</code> .</p>
 <h2 id="solution">Solution</h2>
 <p>The core idea to solve this problem is: we want to make sure we never <code>move</code> an element that has children.
-To accomplish this, we want to do:</p>
-<ol>
-<li>Path compression. So that every element in a set will connect to one single parent directly.</li>
-<li>Dummy root node (will be explained). So that the one single parent node will never be moved during a <code>move</code> operation.</li>
-</ol>
-<h3 id="path-compression">Path compression</h3>
-<p>sample code for path compression:</p>
-<pre><code class="language-java">public int find(int ii) {
-    if (parent[ii] != ii) parent[ii] = find(parent[ii]);
-    return parent[ii];
-}
-</code></pre>
+To accomplish this, we want to:</p>
+<div class="admonition note">
+<p>Use dummy root node. So that the nodes whose parent is the node itself will never be moved during a <code>move</code> operation.</p>
+</div>
 <h3 id="dummy-root-node">Dummy root node</h3>
 <p>Initially, the parent of every element will be a dummy root node.
 When we <code>move</code>, we move the element directly from one set to another.
@@ -274,6 +268,16 @@ Note that dummy root nodes are always not counted in our set.</p>
                {5}
 </code></pre>
 <p>Sets are <code>{1, 2, 3, 5}, {4}</code></p>
+<h2 id="implementation">Implementation</h2>
+<p>Different from the standard union find implementation, our <code>parent[]</code> array will have length of <code>2 * (number of nodes)</code>.</p>
+<p>Intially, we will set the <code>parent</code> of each node to <code>node_index + 1</code>, and the <code>parent</code> of each dummy node to itself, just like the illustration of the above section:</p>
+<pre><code>dummy nodes:     {6}  {7}  {8}  {9}  {10}
+                  |    |    |    |    |
+normal nodes:    {1}, {2}, {3}, {4}, {5}
+</code></pre>
+<p>The <code>parent[]</code> array in this example will be (assuming we are not using the <code>0</code>th slot):</p>
+<pre><code>[0, 6, 7, 8, 9, 10, 6, 7, 8, 9, 10]
+</code></pre>
 <h2 id="acknowledgement">Acknowledgement</h2>
 <p>This problem is originated from Problem Set 9 of NYU Algorithmic Problem Solving class (Fall 2021).</p>
 

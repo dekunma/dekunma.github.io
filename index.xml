@@ -8,6 +8,15 @@
     <language>en</language>
     <lastBuildDate>Tue, 09 Nov 2021 21:47:56 -0500</lastBuildDate><atom:link href="https://dekunma.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>About</title>
+      <link>https://dekunma.github.io/about/</link>
+      <pubDate>Wed, 10 Nov 2021 23:06:05 -0500</pubDate>
+      
+      <guid>https://dekunma.github.io/about/</guid>
+      <description>Welcome to the blog of Dekun Ma 🙋‍ Who am I  Dekun Ma / William / Him Student at 🏫 New York University →, Class of 2023, Computer Science and Data Science (joint major) → Full-stack web developer, good at React and SpringBoot. Former intern at ThoughtWorks →.  📫 Contact me  Wechat: Magnoliae_Flos Email: william@dekun.me LinkedIn: Dekun Ma  🎵 Favorite song recently  </description>
+    </item>
+    
+    <item>
       <title>Union Find with &#39;Move&#39; Operation</title>
       <link>https://dekunma.github.io/post/union-find-move/</link>
       <pubDate>Tue, 09 Nov 2021 21:47:56 -0500</pubDate>
